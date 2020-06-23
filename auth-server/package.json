@@ -8,5 +8,12 @@
     "express": "~4.0.0",
     "querystring": "~0.2.0",
     "request": "~2.34.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  },
+  "scripts": {
+    "dev": "nodemon authorization_code/app.js",
+    "start": "node authorization_code/app.js"
   }
 }

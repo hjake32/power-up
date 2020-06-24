@@ -3,11 +3,16 @@ import "./App.css";
 import PlayingFrom from "./components/PlayingFrom";
 import NowPlaying from "./components/NowPlaying";
 import SpotifyWebApi from "spotify-web-api-js";
-import Header from "./components/Header";
+import Banner from "react-banner";
+import "react-banner/dist/style.css";
 
 const App = () => {
   const spotifyApi = new SpotifyWebApi();
-  const [nowPlaying, setNowPlaying] = useState()
+  const [nowPlaying, setNowPlaying] = useState();
+  const [playingFrom, setPlayingFrom] = useState();
+  const [userId, setUserId] = useState();
+  const [playistId, setPlaylistId] = useState(0);
+
   const getHashParams = () => {
     var hashParams = {};
     var e,
@@ -27,22 +32,45 @@ const App = () => {
     spotifyApi.setAccessToken(token);
   }
 
+  const loadCurrentPlayback = () => {
+    getPlayingFrom();
+    getNowPlaying();
+  };
+
   const getNowPlaying = () => {
-    spotifyApi.getMyCurrentPlaybackState()
-      .then((response) => {
-        setNowPlaying(response.item)
-        console.log(response)
-      });
-    
-    }
+    spotifyApi.getMyCurrentPlaybackState().then((response) => {
+      setNowPlaying(response.item);
+      console.log(response.item);
+    });
+  };
+
+  const getPlayingFrom = () => {
+    spotifyApi.getMyCurrentPlaybackState().then((response) => {
+      setPlayingFrom(response.context.uri);
+      console.log(response.context.uri);
+    });
+  };
+
+  const getMyUserId = () => {
+    spotifyApi.getMe().then((response) => {
+      setUserId(response)
+    });
+  };
 
   return (
     <div>
-      <Header />
-      <button onClick={() => getNowPlaying()}>Get Current Song</button>
+      <Banner
+        logo="My Logo"
+        url={window.location.pathname}
+        items={[
+          { content: "Login", url: "http://localhost:8888" },
+          { content: "Another", url: "/another" },
+        ]}
+      />
+      <button onClick={() => loadCurrentPlayback()}>Get Current Song</button>
       <NowPlaying playback={nowPlaying} />
       {console.log(nowPlaying)}
-      <PlayingFrom playback={nowPlaying} />
+      <PlayingFrom playback={playingFrom} userId={userId} playlistId={playistId} />
     </div>
   );
 };

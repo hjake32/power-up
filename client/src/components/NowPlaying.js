@@ -2,7 +2,6 @@ import React, { Component, useState } from 'react';
 import SpotifyWebApi from 'spotify-web-api-js';
 
 const NowPlaying = (props) => {
-    const spotifyWebApi = new SpotifyWebApi()
     const nowPlaying = props.playback
 
     return (
@@ -15,7 +14,7 @@ const NowPlaying = (props) => {
                 Now Playing: {nowPlaying ? nowPlaying.name : "No Song Playing"}
             </div>
             <div>
-                {nowPlaying ? `By: ${nowPlaying.artists.map(artist => artist.name + " ")}` : ""}
+                {nowPlaying ? `By: ${nowPlaying.artists.map(artist => artist.name)}` : ""}
             </div>
         </div>
       )

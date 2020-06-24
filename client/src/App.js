@@ -11,7 +11,6 @@ const App = () => {
   const [nowPlaying, setNowPlaying] = useState();
   const [playingFrom, setPlayingFrom] = useState();
   const [userId, setUserId] = useState();
-  const [playistId, setPlaylistId] = useState(0);
 
   const getHashParams = () => {
     var hashParams = {};
@@ -35,19 +34,18 @@ const App = () => {
   const loadCurrentPlayback = () => {
     getPlayingFrom();
     getNowPlaying();
+    getMyUserId();
   };
 
   const getNowPlaying = () => {
     spotifyApi.getMyCurrentPlaybackState().then((response) => {
       setNowPlaying(response.item);
-      console.log(response.item);
     });
   };
 
   const getPlayingFrom = () => {
     spotifyApi.getMyCurrentPlaybackState().then((response) => {
       setPlayingFrom(response.context.uri);
-      console.log(response.context.uri);
     });
   };
 
@@ -69,8 +67,7 @@ const App = () => {
       />
       <button onClick={() => loadCurrentPlayback()}>Get Current Song</button>
       <NowPlaying playback={nowPlaying} />
-      {console.log(nowPlaying)}
-      <PlayingFrom playback={playingFrom} userId={userId} playlistId={playistId} />
+      <PlayingFrom playback={playingFrom} userId={userId} />
     </div>
   );
 };

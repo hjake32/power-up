@@ -21,12 +21,6 @@ const PlayingFrom = (props) => {
     console.log(playListId);
   };
 
-  console.log(typeof playingFrom);
-  if (playingFrom) {
-    setPlayListId(playingFrom.substring(0, 22))
-    getPlaylistDetails();
-  }
-
   return (
     <div>
       <h3>

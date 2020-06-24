@@ -1,7 +1,8 @@
 import React from 'react'
 
-const PlayingFrom = (nowPlaying) => {
-    const context = nowPlaying.context    
+const PlayingFrom = (props) => {
+    const nowPlaying = props.playback
+
     return ( 
         <div>
             <h2>Playing From</h2>

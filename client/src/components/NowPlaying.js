@@ -1,16 +1,9 @@
 import React, { Component, useState } from 'react';
 import SpotifyWebApi from 'spotify-web-api-js';
 
-const NowPlaying = () => {
-    const [nowPlaying, setNowPlaying] = useState()
+const NowPlaying = (props) => {
     const spotifyWebApi = new SpotifyWebApi()
-    const getNowPlaying = () => {
-        spotifyWebApi.getMyCurrentPlaybackState()
-          .then((response) => {
-            setNowPlaying(response.item)
-          });
-        
-        }
+    const nowPlaying = props.playback
 
     return (
         <div>
@@ -18,9 +11,6 @@ const NowPlaying = () => {
             <div>
                 <img src= {nowPlaying ? nowPlaying.album.images[0].url : ""} style={{height: 250}} />
             </div>
-            <button onClick={() => getNowPlaying()}>
-                Get Current Song
-            </button>
             <div>
                 Now Playing: {nowPlaying ? nowPlaying.name : "No Song Playing"}
             </div>

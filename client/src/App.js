@@ -1,23 +1,13 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import './App.css';
-
+import PlayingFrom from './components/PlayingFrom'
+import NowPlaying from './components/NowPlaying'
 import SpotifyWebApi from 'spotify-web-api-js';
-const spotifyApi = new SpotifyWebApi();
 
-class App extends Component {
-  constructor(){
-    super();
-    const params = this.getHashParams();
-    const token = params.access_token;
-    if (token) {
-      spotifyApi.setAccessToken(token);
-    }
-    this.state = {
-      loggedIn: token ? true : false,
-      nowPlaying: { name: 'Not Checked', albumArt: '' }
-    }
-  }
-  getHashParams() {
+const App = () => {
+  const spotifyApi = new SpotifyWebApi();
+  
+  const getHashParams = () => {
     var hashParams = {};
     var e, r = /([^&;=]+)=?([^&;]*)/g,
         q = window.location.hash.substring(1);
@@ -29,35 +19,19 @@ class App extends Component {
     return hashParams;
   }
 
-  getNowPlaying(){
-    spotifyApi.getMyCurrentPlaybackState()
-      .then((response) => {
-        this.setState({
-          nowPlaying: { 
-              name: response.item.name, 
-              albumArt: response.item.album.images[0].url
-            }
-        });
-      })
-  }
-  render() {
-    return (
-      <div className="App">
-        <a href='http://localhost:8888' > Login to Spotify </a>
-        <div>
-          Now Playing: { this.state.nowPlaying.name }
-        </div>
-        <div>
-          <img src={this.state.nowPlaying.albumArt} style={{ height: 150 }}/>
-        </div>
-        { this.state.loggedIn &&
-          <button onClick={() => this.getNowPlaying()}>
-            Check Now Playing
-          </button>
-        }
-      </div>
-    );
-  }
+  const params = getHashParams();
+    const token = params.access_token;
+    if (token) {
+      spotifyApi.setAccessToken(token);
+    }
+
+  return (
+    <div>
+      <NowPlaying />
+      <PlayingFrom name="discover weekly" />
+    </div>
+    
+  )
 }
 
-export default App;
+export default App

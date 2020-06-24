@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { Component, useState, useEffect } from "react";
 import "./App.css";
 import PlayingFrom from "./components/PlayingFrom";
 import NowPlaying from "./components/NowPlaying";
@@ -12,6 +12,7 @@ const App = () => {
   const [playingFrom, setPlayingFrom] = useState();
   const [userId, setUserId] = useState();
 
+  //Get and set access Token
   const getHashParams = () => {
     var hashParams = {};
     var e,
@@ -30,6 +31,11 @@ const App = () => {
   if (token) {
     spotifyApi.setAccessToken(token);
   }
+  //End of token work
+
+  useEffect(() => {
+    loadCurrentPlayback()
+  }, [])
 
   const loadCurrentPlayback = () => {
     getPlayingFrom();
@@ -51,7 +57,7 @@ const App = () => {
 
   const getMyUserId = () => {
     spotifyApi.getMe().then((response) => {
-      setUserId(response)
+      setUserId(response.id)
     });
   };
 

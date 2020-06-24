@@ -8,6 +8,11 @@ const PlayingFrom = (props) => {
   const [playListId, setPlayListId] = useState();
   const [playListDetails, setPlayListDetails] = useState();
 
+  useEffect(() => {
+    getPlayListId()
+    getPlaylistDetails()
+  }, [])
+
   const getPlaylistDetails = () => {
     spotifyApi.getPlaylist(userId, playListId).then((response) => {
       setPlayListDetails(response);

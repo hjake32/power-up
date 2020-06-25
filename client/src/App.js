@@ -9,7 +9,6 @@ import "react-banner/dist/style.css";
 const App = () => {
   const spotifyApi = new SpotifyWebApi();
   const [nowPlaying, setNowPlaying] = useState();
-  const [playingFrom, setPlayingFrom] = useState();
   const [userId, setUserId] = useState();
 
   //Get and set access Token
@@ -34,31 +33,37 @@ const App = () => {
   //End of token work
 
   useEffect(() => {
-    loadCurrentPlayback()
-  }, [])
+    loadCurrentPlayback();
+    getMyUserId();
+  }, []);
 
   const loadCurrentPlayback = () => {
-    getPlayingFrom();
     getNowPlaying();
-    getMyUserId();
+    checkTimeAndUpdate();
   };
 
   const getNowPlaying = () => {
     spotifyApi.getMyCurrentPlaybackState().then((response) => {
-      setNowPlaying(response.item);
-    });
-  };
-
-  const getPlayingFrom = () => {
-    spotifyApi.getMyCurrentPlaybackState().then((response) => {
-      setPlayingFrom(response.context.uri);
+      setNowPlaying(response);
     });
   };
 
   const getMyUserId = () => {
     spotifyApi.getMe().then((response) => {
-      setUserId(response.id)
+      setUserId(response.id);
     });
+  };
+
+  const checkTimeAndUpdate = () => {
+    if (nowPlaying) {
+      var timeLeft = nowPlaying.item.duration_ms - nowPlaying.progress_ms
+      console.log(timeLeft);
+
+      setTimeout(() => {
+        loadCurrentPlayback();
+      }, timeLeft)
+      return () => clearTimeout()
+    }
   };
 
   return (
@@ -72,8 +77,11 @@ const App = () => {
         ]}
       />
       <button onClick={() => loadCurrentPlayback()}>Get Current Song</button>
-      <NowPlaying playback={nowPlaying} />
-      <PlayingFrom playback={playingFrom} userId={userId} />
+      <NowPlaying playback={nowPlaying ? nowPlaying.item : ""} />
+      <PlayingFrom
+        playback={nowPlaying ? nowPlaying.context.uri : ""}
+        userId={userId}
+      />
     </div>
   );
 };

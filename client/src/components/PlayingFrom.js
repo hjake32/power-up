@@ -11,7 +11,7 @@ const PlayingFrom = (props) => {
   useEffect(() => {
     getPlayListId()
     getPlaylistDetails()
-  }, [])
+  }, [playingFrom, userId, playListId, playListDetails])
 
   const getPlaylistDetails = () => {
     spotifyApi.getPlaylist(userId, playListId).then((response) => {
@@ -22,8 +22,10 @@ const PlayingFrom = (props) => {
 
   const getPlayListId = () => {
     //Trim to get playlist id
-    setPlayListId(playingFrom ? "37i9dQZF1CAqeoLqOvvBsv" : "");
-    console.log(playListId);
+    if (playingFrom){
+      setPlayListId(playingFrom ? playingFrom.toString().slice(-22) : "");
+      console.log(playListId)
+    }
   };
 
   return (

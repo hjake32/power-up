@@ -34,7 +34,7 @@ const App = () => {
   else {
       return (
         <div>
-          <a href="htttp://localhost:8888">Login</a>
+          <a href="http://localhost:8888">Login</a>
         </div>
       );
   }
@@ -63,15 +63,29 @@ const App = () => {
   };
 
   const checkTimeAndUpdate = () => {
-    if (nowPlaying) {
-      var timeLeft = nowPlaying.item.duration_ms - nowPlaying.progress_ms
-      console.log(timeLeft);
+    let startMs = 60000;
+    let durationMs = 60000;
 
-      setTimeout(() => {
-        loadCurrentPlayback();
-      }, timeLeft)
-      return () => clearTimeout()
+    if (nowPlaying) {
+      if (nowPlaying.item.duration_ms < 120000){
+        startMs = 30000;
+      }
+      else if (nowPlaying.item.duration_ms < 90000){
+        startMs = 0;
+      }
+      else if (nowPlaying.item.duration_ms <60000) {
+        startMs = 0;
+        durationMs = nowPlaying.item.duration_ms
+      }
     }
+
+    //starting work on seek and skip
+    spotifyApi.seek(startMs)
+    setTimeout(() => {
+      spotifyApi.skipToNext().then((response) => {
+      loadCurrentPlayback();
+      })
+    }, durationMs);
   };
 
   return (

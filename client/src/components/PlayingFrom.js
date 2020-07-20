@@ -18,14 +18,12 @@ const PlayingFrom = (props) => {
   const getPlaybackDetails = () => {
     if (playingFrom) {
       if (playingFrom.context.type === "playlist") {
-        spotifyApi.getPlaylist(userId, playListId).then((response) => {
+        spotifyApi.getPlaylist(playListId).then((response) => {
           setPlayListDetails(response);
-          console.log(playListDetails);
         });
       } else {
         spotifyApi.getAlbum(playListId).then((response) => {
-          setPlayListDetails(response);
-          console.log(playListDetails);
+          setPlayListDetails(response)
         });
       }
     }

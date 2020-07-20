@@ -3,8 +3,9 @@ import "./App.css";
 import PlayingFrom from "./components/PlayingFrom";
 import NowPlaying from "./components/NowPlaying";
 import SpotifyWebApi from "spotify-web-api-js";
-import Banner from "react-banner";
 import "react-banner/dist/style.css";
+import {Route, BrowserRouter} from 'react-router-dom'
+import { render } from "react-dom";
 
 const App = () => {
   const spotifyApi = new SpotifyWebApi();
@@ -29,6 +30,13 @@ const App = () => {
   const token = params.access_token;
   if (token) {
     spotifyApi.setAccessToken(token);
+  }
+  else {
+      return (
+        <div>
+          <a href="htttp://localhost:8888">Login</a>
+        </div>
+      );
   }
   //End of token work
 
@@ -68,18 +76,10 @@ const App = () => {
 
   return (
     <div>
-      <Banner
-        logo="My Logo"
-        url={window.location.pathname}
-        items={[
-          { content: "Login", url: "http://localhost:8888" },
-          { content: "Another", url: "/another" },
-        ]}
-      />
       <button onClick={() => loadCurrentPlayback()}>Get Current Song</button>
       <NowPlaying playback={nowPlaying ? nowPlaying.item : ""} />
       <PlayingFrom
-        playback={nowPlaying ? nowPlaying.context.uri : ""}
+        playback={nowPlaying ? nowPlaying : ""}
         userId={userId}
       />
     </div>

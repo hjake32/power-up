@@ -10,11 +10,11 @@ const NowPlaying = (props) => {
             <div>
                 <img src= {nowPlaying ? nowPlaying.album.images[0].url : ""} style={{height: 250}} />
             </div>
-            <div>
-                Now Playing: {nowPlaying ? nowPlaying.name : "No Song Playing"}
+            <div class="songTitle">
+                {nowPlaying ? nowPlaying.name : "No Song Playing"}
             </div>
             <div>
-                {nowPlaying ? `By: ${nowPlaying.artists.map(artist => artist.name)}` : ""}
+                {nowPlaying ? `${nowPlaying.artists.map(artist => artist.name)}` : ""}
             </div>
         </div>
       )

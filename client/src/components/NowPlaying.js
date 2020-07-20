@@ -10,7 +10,7 @@ const NowPlaying = (props) => {
             <div>
                 <img src= {nowPlaying ? nowPlaying.album.images[0].url : ""} style={{height: 250}} />
             </div>
-            <div class="songTitle">
+            <div className="songTitle">
                 {nowPlaying ? nowPlaying.name : "No Song Playing"}
             </div>
             <div>

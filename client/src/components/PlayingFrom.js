@@ -51,7 +51,7 @@ const PlayingFrom = (props) => {
       //Set nextTracks
       setNextTracks(
         slicedTracks.map((trackName) => {
-          return <li>{trackName}</li>;
+          return <li key={trackName}>{trackName}</li>;
         })
       );
     }
@@ -65,7 +65,7 @@ const PlayingFrom = (props) => {
         </a>
       </h3>
       <h4>Queue</h4>
-      <ul class="queue">{nextTracks}</ul>
+      <ul className="queue">{nextTracks}</ul>
     </div>
   );
 };

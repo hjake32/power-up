@@ -11,6 +11,7 @@ const App = () => {
   const spotifyApi = new SpotifyWebApi();
   const [nowPlaying, setNowPlaying] = useState();
   const [userId, setUserId] = useState();
+  var timerId;
 
   //Get and set access Token
   const getHashParams = () => {
@@ -80,8 +81,9 @@ const App = () => {
     }
 
     //starting work on seek and skip
+    clearTimeout(timerId);
     spotifyApi.seek(startMs)
-    setTimeout(() => {
+    timerId = setTimeout(() => {
       spotifyApi.skipToNext().then((response) => {
       loadCurrentPlayback();
       })
